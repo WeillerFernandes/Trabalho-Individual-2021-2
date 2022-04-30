@@ -1,0 +1,22 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Docker compose up
+        working-directory: ./aplicacao
+        run: docker-compose up -d 
+      - name: Run test
+        working-directory: ./aplicacao
+        run: docker exec app bash -c "rails db:reset; rspec"
